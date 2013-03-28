@@ -1,0 +1,436 @@
+# Author: Sravan Bhamidipati @bsravanin
+# Format: Rocky Ren
+# License: MIT License http://www.opensource.org/licenses/mit-license.php
+# Courtesy: Symantec Corporation http://www.symantec.com
+# Date: 14th November, 2011
+# Purpose: Library of anti-patterns that are to be caught in various scripts.
+
+# RULES
+# Keywords: LANG, REGEX, HINT, LEVEL
+# Use keywords to define anti-patterns.
+# LANG can either be "perl" or "shell".
+# REGEX is a Perl regular expression.
+# LANG and REGEX are required.
+# HINT and LEVEL are optional.
+# Lines not starting with a keyword are ignored as comments.
+# Anti-patterns should be separated by comments.
+
+# ===============
+# LANG  : language
+# REGEX : regular expression
+# HINT  : possible alternative
+# LEVEL : IGNORE WARN ERROR
+# ===============
+
+# SUGGESTIONS
+# Use environment and internal variables
+	# Bash: http://tldp.org/LDP/abs/html/internalvariables.html 
+	# Ksh: http://www2.research.att.com/sw/download/man/man1/ksh-man.html#Parameter%20Expansion
+	# Perl: http://perldoc.perl.org/perlvar.html
+# Use builtins
+	# Bash: type -a $keyword
+	# Ksh: type $keyword
+	# Perl: http://perldoc.perl.org/index-functions.html http://affy.blogspot.com/p5be/xp0c.htm
+# Self-parse Text
+# Consider better alternatives
+# Check usage of uname
+# Check usage of specific SAMG commands
+# Check redirections to /dev/null
+# Check forking
+
+===============
+LANG  : perl
+REGEX : \bawk\b
+HINT  : open, split, close;
+LEVEL : WARN
+===============
+LANG  : perl
+REGEX : \bbasename\b
+HINT  : s/.*\///; 865 times faster
+LEVEL : ERROR
+===============
+LANG  : perl
+REGEX : \bcat\b
+HINT  : open, close; 28 times faster
+LEVEL : ERROR
+===============
+LANG  : perl
+REGEX : \bcd\b
+HINT  : chdir; 1580 times faster
+LEVEL : ERROR
+===============
+LANG  : perl
+REGEX : \bcp\b
+HINT  : use File::Copy "cp"; 1.85 times faster
+LEVEL : WARN
+===============
+LANG  : perl
+REGEX : \bchmod\b
+HINT  : internal chmod; 340 times faster
+LEVEL : ERROR
+===============
+LANG  : perl
+REGEX : \bcut\b
+HINT  : split; 307 times faster
+LEVEL : ERROR
+===============
+LANG  : perl
+REGEX : \bdate\b
+HINT  : localtime; 207 times faster
+LEVEL : ERROR
+===============
+LANG  : perl
+REGEX : \bdirname\b
+HINT  : s/\/^\/*$//; 325 times faster
+LEVEL : ERROR
+===============
+LANG  : perl
+REGEX : \becho\b
+HINT  : print; 4000 times faster
+LEVEL : ERROR
+===============
+LANG  : perl
+REGEX : \bgrep\b
+HINT  : open, internal grep, close; 2.5 times faster
+LEVEL : WARN
+===============
+LANG  : perl
+REGEX : \bhead\b
+HINT  : open, break, close; 42 times faster
+LEVEL : ERROR
+===============
+LANG  : perl
+REGEX : \bhostname\b
+HINT  : use Sys::Hostname; 10400 times faster
+LEVEL : ERROR
+===============
+LANG  : perl
+REGEX : \bid\b
+HINT  : getpwnam; 43 times faster
+LEVEL : ERROR
+===============
+LANG  : perl
+REGEX : \bkill\b
+HINT  : internal kill; 55 times faster
+LEVEL : ERROR
+===============
+LANG  : perl
+REGEX : \bln\b
+HINT  : symlink; 1000 times faster
+LEVEL : ERROR
+===============
+LANG  : perl
+REGEX : \bls\b
+HINT  : opendir, closedir; 30 times faster
+LEVEL : ERROR
+===============
+LANG  : perl
+REGEX : \bmkdir\b
+HINT  : internal mkdir; 13 times faster
+LEVEL : ERROR
+===============
+LANG  : perl
+REGEX : \bmkdir\s+-p
+HINT  : mkpath; 10 times faster
+LEVEL : ERROR
+===============
+LANG  : perl
+REGEX : \bmv\b
+HINT  : use File::Copy "move"; 32 times faster
+LEVEL : ERROR
+===============
+LANG  : perl
+REGEX : \bping\b
+HINT  : use Net::Ping;
+LEVEL : WARN
+===============
+LANG  : perl
+REGEX : \bps\b
+HINT  : use Proc::ProcessTable; 3.84 times faster
+LEVEL : WARN
+===============
+LANG  : perl
+REGEX : \bpwd\b
+HINT  : $ENV{'PWD'}; 3650 times faster
+LEVEL : ERROR
+===============
+LANG  : perl
+REGEX : \brm\b
+HINT  : unlink; 75 times faster
+LEVEL : ERROR
+===============
+LANG  : perl
+REGEX : \brmdir\b
+HINT  : internal rmdir; 20 times faster
+LEVEL : WARN
+===============
+LANG  : perl
+REGEX : \brm\s*-r
+HINT  : use File::Path; 9 times faster
+LEVEL : WARN
+===============
+LANG  : perl
+REGEX : \bsed\b
+HINT  : open, s/find/replace/, close; 25 times faster
+LEVEL : ERROR
+===============
+LANG  : perl
+REGEX : \bsleep\b
+HINT  : internal sleep; 2825 times faster
+LEVEL : ERROR
+===============
+LANG  : perl
+REGEX : \bsort\b
+HINT  : open, internal sort, close; 4.2 times faster
+LEVEL : ERROR
+===============
+LANG  : perl
+REGEX : \btail\b
+HINT  : open, close; 2.7 times faster
+LEVEL : WARN
+===============
+LANG  : perl
+REGEX : \btouch\b
+HINT  : open, close; 65 times faster
+LEVEL : ERROR
+===============
+LANG  : perl
+REGEX : \bumask\b
+HINT  : internal umask; 7745 times faster
+LEVEL : ERROR
+===============
+LANG  : perl
+REGEX : \buname\b
+HINT  : use Config; 13657 times faster
+LEVEL : ERROR
+===============
+LANG  : perl
+REGEX : \buniq\b
+HINT  : open, unless seen, close; 2.34 times faster
+LEVEL : WARN
+===============
+LANG  : perl
+REGEX : \bwc\s+-l
+HINT  : open, close; 6.8 times faster
+LEVEL : WARN
+===============
+LANG  : perl
+REGEX : `|open.+\||qx\s*\(|system\s*\(
+HINT  : Suspecting process fork. Please check if you can use a library function.
+LEVEL : IGNORE
+===============
+LANG  : perl
+REGEX : cmd.*\s*=|command.*\s*=
+HINT  : Suspecting external command usage. Please check if you can use a library function.
+LEVEL : IGNORE
+===============
+LANG  : perl
+REGEX : \/dev\/null/
+HINT  : use File::Spec
+LEVEL : IGNORE
+===============
+LANG  : shell
+REGEX : \bawk\b[^=]
+HINT  : read -A; 1.3 times faster
+LEVEL : WARN
+===============
+LANG  : shell
+REGEX : \bawk.*\|\s*grep\b
+HINT  : awk; 1.1 times faster
+LEVEL : WARN
+===============
+LANG  : shell
+REGEX : \bawk.*\|\s*sed\b
+HINT  : awk; 1.5 times faster
+LEVEL : WARN
+===============
+LANG  : shell
+REGEX : \bawk.*\|\s*sort\b
+HINT  : awk; 2.2 times faster
+LEVEL : WARN
+===============
+LANG  : shell
+REGEX : \bbasename\b
+HINT  : ${string##*/}; 2.5 times faster
+LEVEL : WARN
+===============
+LANG  : shell
+REGEX : \bcat.*\|\s*awk\b
+HINT  : awk; 1.1 times faster
+LEVEL : WARN
+===============
+LANG  : shell
+REGEX : \bcat.*\|\s*grep\b
+HINT  : grep; 1.4 times faster
+LEVEL : WARN
+===============
+LANG  : shell
+REGEX : \bcat.*\|\s*head\b
+HINT  : head; 21 times faster
+LEVEL : ERROR
+===============
+LANG  : shell
+REGEX : \bcat.*\|\s*read\b
+HINT  : read; 1.5 times faster
+LEVEL : WARN
+===============
+LANG  : shell
+REGEX : \bcat.*\|\s*sed\b
+HINT  : sed; 1.2 times faster
+LEVEL : WARN
+===============
+LANG  : shell
+REGEX : \bcat.*\|\s*tail\b
+HINT  : tail; 1.5 times faster
+LEVEL : WARN
+===============
+LANG  : shell
+REGEX : \bcat.*\|\s*wc\b
+HINT  : wc; 15 times faster
+LEVEL : ERROR
+===============
+LANG  : shell
+REGEX : \/cd\b
+HINT  : cd; 400 times faster
+LEVEL : ERROR
+===============
+LANG  : shell
+REGEX : \bdirname\b
+HINT  : ${string%/*}; 2.2 times faster
+LEVEL : WARN
+===============
+LANG  : shell
+REGEX : \/echo\b
+HINT  : echo; 100 times faster
+LEVEL : ERROR
+===============
+LANG  : shell
+REGEX : \becho.*\|\s*awk\b
+HINT  : ($string); 185 times faster
+LEVEL : ERROR
+===============
+LANG  : shell
+REGEX : \becho.*\|\s*bc\b
+HINT  : $(()); 3050 times faster
+LEVEL : ERROR
+===============
+LANG  : shell
+REGEX : \becho.*\|\s*cut\b
+HINT  : ($string); 100 times faster
+LEVEL : ERROR
+===============
+LANG  : shell
+REGEX : \becho.*\|\s*grep\b
+HINT  : if [[ $string == REGEX ]]; 380 times faster
+LEVEL : ERROR
+===============
+LANG  : shell
+REGEX : \becho.*\|\s*sed\b
+HINT  : ${string/find/replace}; 335 times faster
+LEVEL : ERROR
+===============
+LANG  : shell
+REGEX : \becho.*\|\s*wc\s+-m
+HINT  : ${#string}; 160 times faster
+LEVEL : ERROR
+===============
+LANG  : shell
+REGEX : \becho.*\|\s*wc\s+-w
+HINT  : ($string), ${#array[*]}; 85 times faster
+LEVEL : ERROR
+===============
+LANG  : shell
+REGEX : \bexpr\b
+HINT  : $(()); 1440 times faster
+LEVEL : ERROR
+===============
+LANG  : shell
+REGEX : \bgrep.*\|\s*awk\b
+HINT  : grep; 1.1 times faster
+LEVEL : WARN
+===============
+LANG  : shell
+REGEX : \bgrep.*\|\s*grep\b
+HINT  : sed; 2 times less CPU
+LEVEL : WARN
+===============
+LANG  : shell
+REGEX : \bgrep.*\|\s*grep\s+-v
+HINT  : sed; 2 times less CPU
+LEVEL : WARN
+===============
+LANG  : shell
+REGEX : \bgrep.*\|\s*sed\b
+HINT  : sed; 2 times less CPU
+LEVEL : WARN
+===============
+LANG  : shell
+REGEX : \bgrep.*\|\s*wc\b
+HINT  : grep -c; 1.25 times less CPU
+LEVEL : WARN
+===============
+LANG  : shell
+REGEX : \bhead\b
+HINT  : read, break; 1.2 times faster
+LEVEL : WARN
+===============
+LANG  : shell
+REGEX : \bhead.*\|\s*awk\b
+HINT  : read -A, break; 67 times faster
+LEVEL : ERROR
+===============
+LANG  : shell
+REGEX : \/kill\b
+HINT  : kill; 5 times faster
+LEVEL : WARN
+===============
+LANG  : shell
+REGEX : \bls.*\|\s*awk\b
+HINT  : (ls); 2 times less CPU
+LEVEL : WARN
+===============
+LANG  : shell
+REGEX : \bpwd\b
+HINT  : $PWD; 300 times faster
+LEVEL : ERROR
+===============
+LANG  : shell
+REGEX : \bsed.*\|\s*sed\b
+HINT  : sed; 1.75 times less CPU
+LEVEL : WARN
+===============
+LANG  : shell
+REGEX : \btail.*\|\s*awk\b
+HINT  : (tail); 1.5 times less CPU
+LEVEL : WARN
+===============
+LANG  : shell
+REGEX : \/test\b
+HINT  : test; 205 times faster
+LEVEL : ERROR
+===============
+LANG  : shell
+REGEX : \/true\b
+HINT  : true; 475 times faster
+LEVEL : ERROR
+===============
+LANG  : shell
+REGEX : \/ulimit\b
+HINT  : ulimit; 175 times faster
+LEVEL : ERROR
+===============
+LANG  : shell
+REGEX : \/umask\b
+HINT  : umask; 175 times faster
+LEVEL : ERROR
+===============
+LANG  : shell
+REGEX : \buname\b
+HINT  : environment variables; 3 times faster
+LEVEL : WARN
+===============
+LANG  : shell
+REGEX : \bwc.*\|\s*awk\b
+HINT  : (wc); 12 times faster
+LEVEL : ERROR
+===============
